@@ -95,6 +95,7 @@ if(GPU_SUPPORT)
 
     include_directories("${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}")
     add_executable(${PROJECT_NAME} ${cpp_sources} ${cuda_sources})
+    target_link_options(${PROJECT_NAME} PRIVATE "-Wl,--allow-multiple-definition")
     target_compile_definitions(${PROJECT_NAME} PUBLIC USE_CUDA_GPU _FORCE_INLINES)
     target_link_libraries(${PROJECT_NAME} CUDA::nvml)
 
@@ -105,6 +106,7 @@ else()
     set_source_files_properties(${cuda_sources} PROPERTIES LANGUAGE CXX)
     add_definitions(-x c++)
     add_executable(${PROJECT_NAME} ${cpp_sources} ${cuda_sources})
+    target_link_options(${PROJECT_NAME} PRIVATE "-Wl,--allow-multiple-definition")
 endif()
 
 target_link_libraries(${PROJECT_NAME} rt)
